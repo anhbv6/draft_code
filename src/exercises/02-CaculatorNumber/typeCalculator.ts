@@ -1,108 +1,114 @@
 export type dataBtnType = {
-    lable: String,
-    type: String,
-    value?: Number | String,
+    label: string,
+    type:
+        | "number"
+        | "binaryOperator"
+        | "unaryOperator"
+        | "decimal"
+        | "parentheses"
+        | "action";
+    value?: number | string,
 }
 
 export const dataBtn: dataBtnType[] = [
     {
-        lable: "C",
+        label: "C",
         type: "action",
-        value: "delete",
+        value: "clear",
     },
     {
-        lable: "()",
-        type: "operator",
-        value: "cluster"
+        label: "()",
+        type: "parentheses",
+        value: "parentheses"
     },
     {
-        lable: "%",
-        type: "operator",
+        label: "%",
+        type: "unaryOperator",
         value: "percent",
     },
     {
-        lable: "÷",
-        type: "operator",
+        label: "÷",
+        type: "binaryOperator",
         value: "/",
     },
     {
-        lable: "7",
+        label: "7",
         type: "number",
         value: 7,
     },
     {
-        lable: "8", 
+        label: "8", 
         type: "number",
         value: 8,
     },
     {
-        lable: "9", 
+        label: "9", 
         type: "number",
         value: 9,
     },
     {
-        lable: "x", 
-        type: "operator",
-        value: "x",
+        label: "x", 
+        type: "binaryOperator",
+        value: "*",
     },
     {
-        lable: "4",
+        label: "4",
         type: "number",
         value: 4,
     },
     {
-        lable: "5", 
+        label: "5", 
         type: "number",
         value: 5,
     },
     {
-        lable: "6", 
+        label: "6", 
         type: "number",
         value: 6,
     },
     {
-        lable: "-", 
-        type: "operator",
+        label: "-", 
+        type: "binaryOperator",
         value: "-"
     },
     {
-        lable: "1",
+        label: "1",
         type: "number",
         value: 1,
     },
     {
-        lable: "2", 
+        label: "2", 
         type: "number",
         value: 2,
     },
     {
-        lable: "3", 
+        label: "3", 
         type: "number",
         value: 3,
     },
     {
-        lable: "+", 
-        type: "operator",
-        value: "*",
+        label: "+", 
+        type: "binaryOperator",
+        value: "+",
     },
     {
-        lable: "+/-",
-        type: "operator",
-        value: "prefix",
+        label: "+/-",
+        type: "unaryOperator",
+        value: "toggleSign",
     },
     {
-        lable: "0", 
+        label: "0", 
         type: "number",
         value: 0,
     },
     {
-        lable: ".", 
-        type: "operator",
+        label: ".", 
+        type: "decimal",
         value: "."
     },
     {
-        lable: "=", 
+        label: "=", 
         type: "action",
-        value: "total",
+        value: "calculate",
     },
 ]

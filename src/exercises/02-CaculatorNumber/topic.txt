@@ -16,14 +16,14 @@ Xây dựng một Calculator ReactJS để luyện tập các kỹ năng:
 YÊU CẦU CHỨC NĂNG
 --------------------------------------------------------------------------------
 1. Tính toán cơ bản:
-   - Nhập số từ 0–9
-   - Thực hiện các phép toán: cộng (+), trừ (-), nhân (×), chia (÷)
-   - Nút "=" để trả kết quả
-   - Nút "C" hoặc "AC" để xóa toàn bộ
-   - Nút "DEL" để xóa 1 ký tự
+   - Nhập số từ 0–9 >>> done
+   - Thực hiện các phép toán: cộng (+), trừ (-), nhân (×), chia (÷) >>> done
+   - Nút "=" để trả kết quả >>> done
+   - Nút "C" hoặc "AC" để xóa toàn bộ >>> done
+   - Nút "DEL" để xóa 1 ký tự >>> done
 
 2. Tính năng nâng cao:
-   - Hỗ trợ số thập phân "." 
+   - Hỗ trợ số thập phân "." >>> done
    - Đổi dấu số "+/-"
    - Phần trăm "%"
    - Không cho nhập nhiều dấu "." trong cùng 1 số
@@ -41,7 +41,7 @@ YÊU CẦU CHỨC NĂNG
      - Enter = "="
      - Backspace = "DEL"
      - Escape = "AC"
-   - Dark mode toggle
+   - Dark mode toggle >>> done
    - Responsive trên desktop và mobile
 
 ================================================================================

@@ -2,68 +2,162 @@ import React, { useEffect, useRef, useState } from 'react'
 import './CaculatorNumber.css';
 import Icon from '../../components/Icon';
 import { dataBtn, type dataBtnType } from './typeCalculator';
-import { getCurrentNumber } from './constants';
 
 const CaculatorNumber = () => {
   const inputFocus = useRef<HTMLInputElement>(null);
   const [mode, setMode] = useState(false);
   const [inputValue, setInputValue] = useState<string>('');
-  const currentNumber = getCurrentNumber(inputValue);
+  const [result, setResult] = useState<number | null>(null);
+  const binaryOperators = ["+", "-", "*", "/"] as const;
+  type BinaryOperator = typeof binaryOperators[number];
 
-  const handleAddOperator = (data: any) => {
-    const operators = ["+", "-", "*", "/"];
-    if (data.value === "prefix") {
-      setInputValue(prev => {
-        if (prev === "") return "+";
-        if (prev === "+") return "-";
-        if (prev === "-") return "+";
+  const handleBinaryOperator = (operator: BinaryOperator) => {
+    setInputValue((prev) => {
+      if (!prev) {
+        if (operator === "+" || operator === "-") {
+          return operator;
+        }
+
         return prev;
-      });
-      return;
-    }
+      }
 
-    if (currentNumber === "") return;
+      const lastChar = prev[prev.length - 1];
 
-    setInputValue(prev => {
-      const lastChar = prev.slice(-1);
-      if (prev === "" && ["*", "/"].includes(data.lable)) {
+      if (lastChar === ".") {
         return prev;
       }
       
-      if (operators.includes(lastChar)) {
-        return prev.slice(0, -1) + data.lable;
+      if (binaryOperators.includes(lastChar as BinaryOperator)) {
+        const isOnlyPrefixOperator = prev.length === 1 && (prev === "+" || prev === "-");
+        const isMultiplyOrDivide = operator === "*" || operator === "/";
+
+        if (isOnlyPrefixOperator && isMultiplyOrDivide) {
+          return prev;
+        }
+        return prev.slice(0, -1) + operator;
+      }
+      return prev + operator;
+    })
+  }
+
+  const handleDecimal = () => {
+    setInputValue((prev) => {
+      if (!prev) return "0.";
+
+      const lastChar = prev[prev.length - 1];
+      if (binaryOperators.includes(lastChar as BinaryOperator)) {
+        return prev + "0.";
       }
 
-      if (currentNumber === "") return prev;
+      const parts = prev.split(/[+\-*/]/);
+      console.log("parts", parts);
+      
+      const currentNumber = parts[parts.length - 1];
+      console.log("currentNumber", currentNumber);
 
-      return prev + data.value;
-    });
+      if (currentNumber.includes(".")) {
+        return prev;
+      }
+
+      return prev + ".";
+    })
   }
 
   const handleAction = (data: dataBtnType) => {
-    if (data.value === "delete") {
+    if (data.value === "clear") {
       setInputValue('');
+      setResult(0);
       return;
+    }
+    if (data.value === "calculate") {
+      calculatorNumber(inputValue);
     }
   }
 
-  const handleNumber = (data: dataBtnType) => {
-    if (currentNumber === '' && data.value === 0) {
-      return;
-    }
-    setInputValue(prev => prev + String(data.value))
+  const handleNumber = (data: number) => {
+    setResult(0);
+    setInputValue((prev) => prev + data.toString())
   }
 
-  const handleClick = (value: dataBtnType) => {
-    switch (value.type) {
-      case "action":
-        handleAction(value)
-        return;
-      case "operator":
-        handleAddOperator(value)
-        return;
+  const handleAddParentheses = () => {
+
+  }
+
+  const handleUnaryOperator = (unaryOperator: any) => {
+
+  }
+
+  const handleDeleteValue = () => {
+    setInputValue(prev => prev.slice(0, -1));
+    setResult(0);
+  }
+
+  const calculatorNumber = (expression: string) => {
+    if (!expression) return;
+    const lastChar = expression[expression.length - 1];
+
+    if (
+      binaryOperators.includes(lastChar as BinaryOperator) ||
+      lastChar === "."
+    ) {
+      return;
+    }
+
+    if (expression[0] === "-" || expression[0] === "+") {
+      expression = "0" + expression;
+    }
+
+    const numberList = expression.split(/[+\-*/]/).map(Number);
+    const operatorList = expression.match(/[+\-*/]/g) || [];
+
+    for (let i = 0; i < operatorList.length; i++) {
+      if (operatorList[i] === "*" || operatorList[i] === "/") {
+        const currentResult =
+          operatorList[i] === "*"
+            ? numberList[i] * numberList[i + 1]
+            : numberList[i] / numberList[i + 1];
+
+        numberList.splice(i, 2, currentResult);
+        operatorList.splice(i, 1);
+
+        i--;
+      }
+    }
+
+    let total = numberList[0];
+    
+    for (let i = 0; i < operatorList.length; i++) {
+      if (operatorList[i] === "+") {
+        total += numberList[i + 1];
+      }
+
+      if (operatorList[i] === "-") {
+        total -= numberList[i + 1];
+      }
+    }
+
+    setResult(total);
+  }
+
+  const handlePressButton = (btn: dataBtnType) => {
+    switch (btn.type) {
       case "number":
-        handleNumber(value)
+        handleNumber(btn.value as number)
+        return;
+      case "binaryOperator":
+        handleBinaryOperator(btn.value as BinaryOperator)
+        return;
+      case "decimal":
+        handleDecimal();
+        return;
+      case "action":
+        handleAction(btn)
+        return;
+      case "parentheses":
+        handleAddParentheses();
+        return;
+      case "unaryOperator":
+        handleUnaryOperator(btn.value);
         return;
     }
   }
@@ -73,6 +167,15 @@ const CaculatorNumber = () => {
       inputFocus.current.focus();
     }
   }, []);
+
+  useEffect(() => {
+    const el = inputFocus.current;
+    if (el) {
+      requestAnimationFrame(() => {
+        el.scrollLeft = el.scrollWidth;
+      })
+    }
+  }, [inputValue]);
 
   return (
     <>
@@ -124,7 +227,11 @@ const CaculatorNumber = () => {
                 alignSelf: 'flex-end',
                 fontSize: '48px',
                 color: '#969696',
-              }}>21</span>
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                display: 'block',
+                width: '100%',
+              }}>{result === null ? "" : String(result)}</span>
             </div>
             <div style={{
               display: 'flex',
@@ -136,9 +243,13 @@ const CaculatorNumber = () => {
               }}>
                 <Icon name='history' size={24}/>
               </div>
-              <div style={{
-                cursor: 'pointer',
-              }}>
+              <div 
+                style={{
+                  cursor: 'pointer',
+                  userSelect: 'none',
+                }}
+                onClick={handleDeleteValue}
+              >
                 <Icon name='delete' size={24}/>
               </div>
             </div>
@@ -158,18 +269,19 @@ const CaculatorNumber = () => {
               {dataBtn.map(item => (
                 <span 
                   style={{
+                    userSelect: 'none',
                     cursor: 'pointer',
                     display: 'flex',
                     justifyContent: 'center',
                     alignItems: 'center',
                     borderRadius: '8px',
-                    background: item.lable === 'C' ? '#FF5959' : mode === true ? '#343434' : '#F0F0F0',
+                    background: item.label === 'C' ? '#FF5959' : mode === true ? '#343434' : '#F0F0F0',
                     fontSize: '26px',
-                    color: item.type === "operator" ? "#66FF7F" : mode === true ? "#FAFAFA" : "#4E4D4D" ,
+                    color: item.type === "binaryOperator" ? mode === false ? "#343434" : "#66FF7F" : mode === true ? "#FAFAFA" : "#4E4D4D" ,
                   }}
-                  onClick={() => handleClick(item)}
+                  onClick={() => handlePressButton(item)}
                 >
-                  {item.lable}
+                  {item.label}
                 </span>
               ))}
             </div>
