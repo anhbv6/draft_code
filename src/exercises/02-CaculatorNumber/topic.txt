@@ -24,9 +24,9 @@ YÊU CẦU CHỨC NĂNG
 
 2. Tính năng nâng cao:
    - Hỗ trợ số thập phân "." >>> done
-   - Đổi dấu số "+/-"
-   - Phần trăm "%"
-   - Không cho nhập nhiều dấu "." trong cùng 1 số
+   - Đổi dấu số "+/-" >>> done
+   - Phần trăm "%" >>> done
+   - Không cho nhập nhiều dấu "." trong cùng 1 số >>> done
    - Không cho nhập nhiều operator liên tiếp sai logic
    - Xử lý chia cho 0
    - Hỗ trợ tính chuỗi phép toán liên tiếp
