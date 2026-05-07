@@ -17,12 +17,11 @@ function App() {
             <ul className="icon-list">
               {exerciresList.map((item, idx) => {
                 return (
-                  <li>
+                  <li onClick={() => setCurrentExercise(item.name)}>
                     <Icon 
                       name={item.icon} 
                       size={25} 
                       color="#FFFFFF"
-                      onClick={() => setCurrentExercise(item.name)}
                     />
                   </li>
                 )

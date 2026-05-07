@@ -20,7 +20,11 @@ const Icon = ({
     return null;
   }
 
-  return <Component width={size} height={size} fill={color} {...props} />;
+  return <Component 
+          size={size}
+          color={color}
+          {...props} 
+        />;
 };
 
 export default Icon;

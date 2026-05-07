@@ -1,0 +1,126 @@
+Wallet Budget App – Redux Core Practice
+
+================================================================================
+MỤC TIÊU
+--------------------------------------------------------------------------------
+Xây dựng app quản lý ví tiền đơn giản để hiểu core Redux:
+
+- Store là nơi lưu state chung
+- Action mô tả việc gì xảy ra
+- Reducer xử lý action và tạo state mới
+- Dispatch để gửi action
+- Selector để lấy dữ liệu từ store
+- Component React đọc state và gửi action
+
+================================================================================
+YÊU CẦU CHỨC NĂNG
+--------------------------------------------------------------------------------
+
+1. Quản lý giao dịch
+- Thêm giao dịch thu / chi
+- Xóa giao dịch
+- Sửa giao dịch
+- Mỗi giao dịch gồm:
+  + id
+  + title
+  + amount
+  + type: income / expense
+
+--------------------------------------------------------------------------------
+
+2. Tính toán ví tiền
+- Hiển thị tổng tiền thu
+- Hiển thị tổng tiền chi
+- Hiển thị số dư hiện tại
+
+Công thức:
+
+Balance = Total Income - Total Expense
+
+--------------------------------------------------------------------------------
+
+3. Filter cơ bản
+- Hiển thị tất cả giao dịch
+- Chỉ hiển thị khoản thu
+- Chỉ hiển thị khoản chi
+
+================================================================================
+YÊU CẦU REDUX CORE
+--------------------------------------------------------------------------------
+
+State gợi ý:
+
+{
+  transactions: [],
+  filter: "all"
+}
+
+Action cần có:
+
+- ADD_TRANSACTION
+- DELETE_TRANSACTION
+- UPDATE_TRANSACTION
+- SET_FILTER
+
+Reducer cần xử lý:
+
+- Thêm transaction vào state
+- Xóa transaction khỏi state
+- Cập nhật transaction
+- Đổi filter hiện tại
+
+Selector cần có:
+
+- Lấy danh sách transactions
+- Lấy transactions sau khi filter
+- Tính totalIncome
+- Tính totalExpense
+- Tính balance
+
+================================================================================
+GIAO DIỆN
+--------------------------------------------------------------------------------
+
+- Form thêm giao dịch:
+  + Tên giao dịch
+  + Số tiền
+  + Loại: income / expense
+  + Button thêm
+
+- Khu vực tổng quan:
+  + Total Income
+  + Total Expense
+  + Balance
+
+- Danh sách giao dịch:
+  + Tên
+  + Số tiền
+  + Loại giao dịch
+  + Button Edit
+  + Button Delete
+
+- Bộ lọc:
+  + All
+  + Income
+  + Expense
+
+================================================================================
+ĐIỀU KIỆN HOÀN THÀNH
+--------------------------------------------------------------------------------
+
+- Không dùng useState để quản lý transactions chính
+- Transactions phải nằm trong Redux store
+- Thêm / sửa / xóa đều thông qua dispatch action
+- Không sửa state trực tiếp trong reducer
+- Balance tự động thay đổi khi transactions thay đổi
+- Filter hoạt động dựa trên Redux state
+
+================================================================================
+OPTIONAL SAU KHI HIỂU CORE
+--------------------------------------------------------------------------------
+
+- Thêm category
+- Thêm search
+- Thêm sort
+- Lưu vào localStorage
+- Chuyển sang Redux Toolkit

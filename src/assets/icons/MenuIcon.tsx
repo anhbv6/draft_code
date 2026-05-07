@@ -1,4 +1,15 @@
-const MenuIcon = ({ size = 48, color = "#000", ...props }) => {
+import type { SVGProps } from "react";
+
+type CustomIconProps = {
+  size?: number;
+  color?: string;
+} & SVGProps<SVGSVGElement>;
+
+const MenuIcon = ({
+  size = 48,
+  color = "currentColor",
+  ...props
+}: CustomIconProps) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

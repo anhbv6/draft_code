@@ -13,11 +13,6 @@ const CaculatorNumber = () => {
   const [historyCalculator, setHistoryCalculator] = useState<any>([])
   const [showHistory, setShowHistory] = useState(false);
   type UnaryOperator = "percent" | "toggleSign";
-  console.log("historyCalculator", historyCalculator);
-  const getHistoryCal = sessionStorage.getItem('historyCal');
-  console.log("getHistoryCal", getHistoryCal);
-  
-  
 
   const handleBinaryOperator = (operator: BinaryOperator) => {
     setInputValue((prev) => {
