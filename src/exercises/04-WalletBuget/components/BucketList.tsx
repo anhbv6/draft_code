@@ -1,9 +1,26 @@
 import React from 'react'
 import Icon from '../../../components/Icon'
+import { useDispatch, useSelector } from 'react-redux'
+import type { RootState } from '../../../store/store'
+import { formatNumber } from '../constants'
 
-type Props = {}
+type Props = {
+  actionPopup: (toggle: boolean) => void;
+  setOpenDrawer: (toggle: boolean) => void;
+  setDataChoose: (data: any) => void;
+}
 
-const BucketList = (props: Props) => {
+const BucketList = ({
+  actionPopup,
+  setOpenDrawer,
+  setDataChoose,
+}: Props) => {
+  const dispatch = useDispatch();
+
+  const totalMoney = useSelector((state: RootState) => state.totalMoney);
+  const availableMoney = useSelector((state: RootState) => state.availableMoney);
+  const buckets = useSelector((state: RootState) => state.buckets);
+
   return (
     <div style={{
       marginTop: '16px',
@@ -12,14 +29,24 @@ const BucketList = (props: Props) => {
       <div className='infoWallet'>
         <div className='budgetWalletInfo'>
           <div style={{
-            fontSize: '17px',
-            fontWeight: 600,
-          }}>Total</div>
+            display: 'flex',
+            flexDirection: 'row',
+            alignItems: 'center',
+            gap: '8px',
+          }}>
+            <div style={{
+              fontSize: '17px',
+              fontWeight: 600,
+            }}>
+              Total
+            </div>
+            <Icon name='arrowCrossover' size={16} color='#5D666D' style={{cursor: 'pointer'}} onClick={() => setOpenDrawer(true)}/>
+          </div>
           <span style={{
             fontSize: '34px',
             fontWeight: 600,
           }}>
-            $10,000
+            ${formatNumber(totalMoney)}
           </span>
         </div>
         <div className='budgetWalletInfo' style={{alignItems: 'end'}}>
@@ -31,7 +58,7 @@ const BucketList = (props: Props) => {
             fontSize: '34px',
             fontWeight: 600,
           }}>
-            $10,000
+            ${formatNumber(availableMoney)}
           </span>
         </div>
       </div>
@@ -44,30 +71,28 @@ const BucketList = (props: Props) => {
             fontWeight: 600,
           }}>Buckets</div>
           <div className='listBucket'>
-            <div className='itemsBucket'>
-              <div>icon</div>
-              <div>
-                <div className='nameBucket'>name</div>
-                <div className='moneyBucket'>money$</div>
-              </div>
-            </div>
-            <div className='itemsBucket'>
-              <div>icon</div>
-              <div>
-                <div className='nameBucket'>name</div>
-                <div className='moneyBucket'>money$</div>
-              </div>
-            </div>
-            <div className='itemsBucket'>
-              <div>icon</div>
-              <div>
-                <div className='nameBucket'>name</div>
-                <div className='moneyBucket'>money$</div>
-              </div>
-            </div>
+            {buckets.map((item) => {
+              return (
+                <div className='itemsBucket' key={item.id} onClick={() => {
+                  actionPopup(true);
+                  setDataChoose(item);
+                }}>
+                  <div>{item.icon}</div>
+                  <div>
+                    <div className='nameBucket'>{item.name}</div>
+                    <div className='moneyBucket'>${formatNumber(item.balance, true)}</div>
+                  </div>
+                </div>
+              )
+            })}
           </div>
         </div>
-        <div className='cartAddBucket'>
+        <div className='cartAddBucket' onClick={() => dispatch({
+          type: "CHANGE_SCREEN",
+          payload: {
+            screen: "formAddBucket",
+          }
+        })}>
           <Icon name='addList' size={24} color='#5D666D'/>
           <div style={{
             fontSize: '17px',

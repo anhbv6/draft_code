@@ -1,10 +1,45 @@
-import React from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import "./WalletBuget.css";
 import Icon from '../../components/Icon';
 import BucketList from './components/BucketList';
 import AddBucketForm from './components/AddBucketForm';
+import { useDispatch, useSelector } from 'react-redux';
+import type { RootState } from '../../store/store';
+import { SCREEN_NAME } from './walletTypes';
+import DepositForm from './components/DepositForm';
+import WithdrawForm from './components/WithdrawForm';
+import PopupMini from '../../components/PopupMini';
+import BucketForm from './components/BucketForm';
 
 const WalletBuget = () => {
+  const dispatch = useDispatch();
+  const checkDrawer = useRef<HTMLDivElement>(null);
+  const viewScreen = useSelector((state: RootState) => state.screenCurrent);
+  const [openDrawer, setOpenDrawer] = useState(false);
+  const [openPopup, setOpenPopup] = useState(false);
+  const [dataChoose, setDataChoose] = useState(null);
+
+  const onCloseDrawer = () => {
+    setOpenDrawer(false);
+  }
+
+  useEffect(() => {
+    const handleClickOutSide = (e: MouseEvent) => {
+      if (
+        checkDrawer.current &&
+        !checkDrawer.current.contains(e.target as Node)
+      ) {
+        setOpenDrawer(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutSide);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutSide);
+    };
+  }, []);
+
   return (
     <div className='backGroundWallet'>
       <div className='containerWallet'>
@@ -14,27 +49,100 @@ const WalletBuget = () => {
               width: 'fit-content',
               padding: '10px',
             }}>
-              {false && <Icon name='arrowLeft' size={24} style={{cursor: 'pointer'}}/>}
+              {(viewScreen === "formAddBucket" || viewScreen === "formDeposit" || viewScreen === "formWithdraw") && 
+                <Icon name='arrowLeft' size={24} style={{cursor: 'pointer'}} onClick={() => dispatch({
+                  type: "CHANGE_SCREEN",
+                  payload: {
+                    screen: "dashBoard",
+                  }
+                })}/>
+              }
             </div>
             <div style={{
-              justifySelf: 'center',
-              fontSize: '20px',
-              fontWeight: 600,
-            }}>Dashboard</div>
+                justifySelf: 'center',
+                fontSize: '20px',
+                fontWeight: 600,
+              }}>
+              {SCREEN_NAME[viewScreen]}
+            </div>
             <div style={{
               justifySelf: 'end',
               cursor: 'pointer',
               padding: '10px',
             }}>
-              <Icon name='menu' size={24} color='#4FD35C'/>
+              {viewScreen === "dashBoard" && <Icon name='menu' size={24} color='#4FD35C' onClick={() => setOpenDrawer(true)}/>}
             </div>
           </div>
           <div style={{
             height: 'calc(100% - 86px)',
           }}>
-            <BucketList />
-            {/* <AddBucketForm /> */}
+            {viewScreen === "dashBoard" && <BucketList actionPopup={setOpenPopup} setDataChoose={setDataChoose} setOpenDrawer={setOpenDrawer}/>}
+            {viewScreen === "formAddBucket" && <AddBucketForm />}
+            {viewScreen === "formDeposit" && <DepositForm />}
+            {viewScreen === "formWithdraw" && <WithdrawForm />}
           </div>
+
+          {openDrawer && (
+            <div className="overlay" onClick={onCloseDrawer} />
+          )}
+
+          <div className={`drawer ${openDrawer ? "open" : ""}`} ref={checkDrawer}>
+            <div style={{
+              padding: '20px',
+              display: 'flex',
+              justifyContent: 'center',
+              fontSize: '20px',
+              fontWeight: 600,
+              position: 'relative',
+            }}>
+              Action
+              <Icon name='closeV2' size={24} style={{cursor: 'pointer', position: 'absolute', top: '10px', right: '10px'}} onClick={onCloseDrawer} />
+            </div>
+            <div style={{
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '16px',
+              padding: '16px',
+            }}>
+              <div className='btnMoreCustom' onClick={() => {
+                onCloseDrawer();
+                dispatch({
+                  type: "CHANGE_SCREEN",
+                  payload: {
+                    screen: "formDeposit",
+                  }
+                })
+              }}>
+                <div>Deposit Money </div>
+                <Icon name='arrowTop' size={24} color='green' onClick={onCloseDrawer} />
+              </div>
+              <div className='btnMoreCustom' onClick={() => {
+                onCloseDrawer();
+                dispatch({
+                  type: "CHANGE_SCREEN",
+                  payload: {
+                    screen: "formWithdraw",
+                  }
+                })
+              }}>
+                <div>Withdraw Money</div>
+                <Icon name='arrowBottom' size={24} color='red' onClick={onCloseDrawer} />
+              </div>
+            </div>
+          </div>
+
+          <PopupMini
+            open={openPopup}
+            onClose={() => setOpenPopup(false)}
+            contentStyleCustom={{
+              background: '#000000',
+              borderRadius: '8px',
+              minHeight: '200px',
+              padding: 0,
+            }}
+          >
+            <BucketForm data={dataChoose}/>
+          </PopupMini>
         </div>
       </div>
     </div>

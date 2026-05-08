@@ -19,6 +19,7 @@
     padding: 16px;
     position: relative;
     border-radius: 6px;
+    overflow: hidden;
 }
 
 .headerWallet {
@@ -62,7 +63,7 @@
 }
 
 .itemsBucket {
-    height: 155px;
+    height: 130px;
     background: #172027;
     border-radius: 8px;
     padding: 16px;
@@ -112,4 +113,50 @@
     font-weight: 600;
     height: 50px;
     border-radius: 8px;
+}
+
+.drawer {
+  position: absolute;
+  top: 0;
+  right: 0;
+
+  width: 60%;
+  height: 100%;
+
+  z-index: 20;
+
+  background: #000000;
+  box-shadow: -2px 0 10px rgba(0,0,0,0.2);
+
+  transform: translate3d(100%, 0, 0);
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+
+  will-change: transform;
+  backface-visibility: hidden;
+}
+
+.drawer.open {
+  transform: translate3d(0, 0, 0);
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+
+  background: rgba(0, 0, 0, 0.4);
+
+  z-index: 10;
+}
+
+.btnMoreCustom {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 16px;
+    border-radius: 8px;
+    background: #172027;
+    font-weight: 400;
+    height: 45px;
+    cursor: pointer;
+    font-size: 16px;
+    align-items: center;
 }

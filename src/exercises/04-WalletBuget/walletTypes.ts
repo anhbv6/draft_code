@@ -5,8 +5,24 @@ export type Bucket = {
     icon: string,
 }
 
+export type ViewAction =
+  | "dashBoard"
+  | "formAddBucket"
+  | "formDeposit"
+  | "formWithdraw";
+
+export const SCREEN_NAME: Record<ViewAction, string> = {
+  dashBoard: "Dashboard",
+  formAddBucket: "Add Bucket",
+  formDeposit: "Deposit Money",
+  formWithdraw: "Withdraw Money",
+};
+
 export type WalletState = {
+    totalMoney: number;
+    availableMoney: number;
     buckets: Bucket[];
+    screenCurrent: ViewAction;
 }
 
 export type WalletActions = | {
@@ -21,25 +37,30 @@ export type WalletActions = | {
         id: string;
     }
 } | {
-    type: "DEPOSIT_BUCKET";
+    type: "TRANSFER_TO_BUCKET";
     payload: {
         id: string;
         amount: number;
     }
 } | {
-    type: "WITHDRAW_BUCKET";
+    type: "TRANSFER_FROM_BUCKET";
     payload: {
         id: string;
         amount: number;
     }
 } | {
-    type: "DEPOSIT_BUDGET";
+    type: "DEPOSIT_MAIN_WALLET";
     payload: {
         amount: number;
     }
 } | {
-    type: "WITHDRAW_BUDGET";
+    type: "WITHDRAW_MAIN_WALLET";
     payload: {
         amount: number;
+    }
+} | {
+    type: "CHANGE_SCREEN",
+    payload: {
+        screen: ViewAction,
     }
 }
