@@ -9,13 +9,19 @@ export type ViewAction =
   | "dashBoard"
   | "formAddBucket"
   | "formDeposit"
-  | "formWithdraw";
+  | "formWithdraw"
+  | "formUpdateBucket"
+  | "formDepositBucket"
+  | "formWithdrawBucket"
 
 export const SCREEN_NAME: Record<ViewAction, string> = {
   dashBoard: "Dashboard",
   formAddBucket: "Add Bucket",
   formDeposit: "Deposit Money",
   formWithdraw: "Withdraw Money",
+  formUpdateBucket: "Edit Bucket",
+  formDepositBucket: "Deposit Bucket",
+  formWithdrawBucket: "Withdraw Bucket",
 };
 
 export type WalletState = {

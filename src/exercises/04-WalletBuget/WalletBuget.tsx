@@ -9,7 +9,8 @@ import { SCREEN_NAME } from './walletTypes';
 import DepositForm from './components/DepositForm';
 import WithdrawForm from './components/WithdrawForm';
 import PopupMini from '../../components/PopupMini';
-import BucketForm from './components/BucketForm';
+import BucketAction from './components/BucketAction';
+import BucketActionForm from './components/BucketActionForm';
 
 const WalletBuget = () => {
   const dispatch = useDispatch();
@@ -49,7 +50,13 @@ const WalletBuget = () => {
               width: 'fit-content',
               padding: '10px',
             }}>
-              {(viewScreen === "formAddBucket" || viewScreen === "formDeposit" || viewScreen === "formWithdraw") && 
+              {["formAddBucket",
+                "formDeposit", 
+                "formWithdraw", 
+                "formUpdateBucket", 
+                "formDepositBucket", 
+                "formWithdrawBucket"
+              ].includes(viewScreen) && 
                 <Icon name='arrowLeft' size={24} style={{cursor: 'pointer'}} onClick={() => dispatch({
                   type: "CHANGE_SCREEN",
                   payload: {
@@ -80,6 +87,11 @@ const WalletBuget = () => {
             {viewScreen === "formAddBucket" && <AddBucketForm />}
             {viewScreen === "formDeposit" && <DepositForm />}
             {viewScreen === "formWithdraw" && <WithdrawForm />}
+            {[
+              "formUpdateBucket",
+              "formDepositBucket",
+              "formWithdrawBucket",
+            ].includes(viewScreen) && <BucketActionForm />}
           </div>
 
           {openDrawer && (
@@ -141,7 +153,7 @@ const WalletBuget = () => {
               padding: 0,
             }}
           >
-            <BucketForm data={dataChoose}/>
+            <BucketAction data={dataChoose} setOpenPopup={setOpenPopup}/>
           </PopupMini>
         </div>
       </div>

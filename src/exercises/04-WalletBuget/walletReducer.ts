@@ -33,24 +33,24 @@ const initialState: WalletState = {
 };
 
 export const walletReducer = (
-    state = initialState,
-    action: WalletActions,
+  state = initialState,
+  action: WalletActions,
 ): WalletState => {
-    switch (action.type) {
-        case "ADD_BUCKET": 
-            return {
-                ...state,
-                totalMoney: 0,
-                availableMoney: 0,
-            }
-        
-        case "CHANGE_SCREEN":
-            return {
-                ...state,
-                screenCurrent: action.payload.screen,
-            }
+  switch (action.type) {
+    case "ADD_BUCKET": 
+      return {
+        ...state,
+        totalMoney: 0,
+        availableMoney: 0,
+      }
+    
+    case "CHANGE_SCREEN":
+      return {
+        ...state,
+        screenCurrent: action.payload.screen,
+      }
 
-        default:
-            return state;
-    }
+    default:
+      return state;
+  }
 }
