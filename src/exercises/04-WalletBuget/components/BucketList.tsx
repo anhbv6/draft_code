@@ -49,6 +49,8 @@ const BucketList = ({
               fontWeight: 600,
               overflow: 'hidden',
               textOverflow: 'ellipsis',
+              maxWidth: '100%',
+              width: 'fit-content',
             }}>
               ${formatNumber(totalMoney)}
             </span>
