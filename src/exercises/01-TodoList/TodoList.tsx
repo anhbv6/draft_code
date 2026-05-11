@@ -170,7 +170,7 @@ const TodoList = () => {
             <div style={{
               padding: '12px',
             }}>
-              <Icon name='search' color='#FFFFFF' size={15}/>
+              <Icon name='search' color='#1e1e1e' size={15}/>
             </div>
           </div>
           <div 
@@ -215,10 +215,10 @@ const TodoList = () => {
                     className='inputCustom'
                   />
                   <div className='customInputAction'>
-                    <Icon name='close' color='#FFFFFF' size={13} onClick={() => handleEditTodo(item, true)} className='iconCustom'/>
+                    <Icon name='close' color='#1e1e1e' size={13} onClick={() => handleEditTodo(item, true)} className='iconCustom'/>
                   </div>
                   <div className='customInputAction'>
-                    <Icon name='check' color='#FFFFFF' size={15} onClick={() => handleEditTodo(item, false, editInput)} className='iconCustom'/>
+                    <Icon name='check' color='#1e1e1e' size={15} onClick={() => handleEditTodo(item, false, editInput)} className='iconCustom'/>
                   </div>
                 </div> :
                 <label className='containerItem' style={{cursor: 'pointer'}}>
@@ -243,10 +243,10 @@ const TodoList = () => {
                   </li>
                   {!editInput && <>
                     <div style={{padding: '10px'}}>
-                      <Icon name='bin' color='#FFFFFF' size={15} onClick={() => handleDeleteTodo(item)} className='iconCustom'/>
+                      <Icon name='bin' color='#1e1e1e' size={15} onClick={() => handleDeleteTodo(item)} className='iconCustom'/>
                     </div>
                     <div style={{padding: '10px'}}>
-                      <Icon name='pen' color='#FFFFFF' size={15} onClick={() => {
+                      <Icon name='pen' color='#1e1e1e' size={15} onClick={() => {
                           setEditInput(item.name);
                           handleEditTodo(item); 
                         }}

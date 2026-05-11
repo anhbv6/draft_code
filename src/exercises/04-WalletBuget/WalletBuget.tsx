@@ -6,11 +6,10 @@ import AddBucketForm from './components/AddBucketForm';
 import { useDispatch, useSelector } from 'react-redux';
 import type { RootState } from '../../store/store';
 import { SCREEN_NAME } from './walletTypes';
-import DepositForm from './components/DepositForm';
-import WithdrawForm from './components/WithdrawForm';
 import PopupMini from '../../components/PopupMini';
 import BucketAction from './components/BucketAction';
 import BucketActionForm from './components/BucketActionForm';
+import MainWalletForm from './components/MainWalletForm';
 
 const WalletBuget = () => {
   const dispatch = useDispatch();
@@ -85,8 +84,7 @@ const WalletBuget = () => {
           }}>
             {viewScreen === "dashBoard" && <BucketList actionPopup={setOpenPopup} setDataChoose={setDataChoose} setOpenDrawer={setOpenDrawer}/>}
             {viewScreen === "formAddBucket" && <AddBucketForm />}
-            {viewScreen === "formDeposit" && <DepositForm />}
-            {viewScreen === "formWithdraw" && <WithdrawForm />}
+            {(viewScreen === "formDeposit" || viewScreen === "formWithdraw") && <MainWalletForm />}
             {[
               "formUpdateBucket",
               "formDepositBucket",

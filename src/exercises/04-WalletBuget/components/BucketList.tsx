@@ -3,6 +3,7 @@ import Icon from '../../../components/Icon'
 import { useDispatch, useSelector } from 'react-redux'
 import type { RootState } from '../../../store/store'
 import { formatNumber } from '../constants'
+import { Tooltip } from 'antd'
 
 type Props = {
   actionPopup: (toggle: boolean) => void;
@@ -42,24 +43,33 @@ const BucketList = ({
             </div>
             <Icon name='arrowCrossover' size={16} color='#5D666D' style={{cursor: 'pointer'}} onClick={() => setOpenDrawer(true)}/>
           </div>
-          <span style={{
-            fontSize: '34px',
-            fontWeight: 600,
-          }}>
-            ${formatNumber(totalMoney)}
-          </span>
+          <Tooltip placement="bottom" title={`$${formatNumber(totalMoney)}`}>
+            <span style={{
+              fontSize: '34px',
+              fontWeight: 600,
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+            }}>
+              ${formatNumber(totalMoney)}
+            </span>
+          </Tooltip>
         </div>
         <div className='budgetWalletInfo' style={{alignItems: 'end'}}>
           <div style={{
             fontSize: '17px',
             fontWeight: 600,
           }}>Available</div>
-          <span style={{
-            fontSize: '34px',
-            fontWeight: 600,
-          }}>
-            ${formatNumber(availableMoney)}
-          </span>
+          <Tooltip placement="bottom" title={`$${formatNumber(totalMoney)}`}>
+            <span style={{
+              fontSize: '34px',
+              fontWeight: 600,
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              maxWidth: '100%'
+            }}>
+              ${formatNumber(availableMoney)}
+            </span>
+          </Tooltip>
         </div>
       </div>
       <div className='contentListBucket'>
@@ -70,7 +80,7 @@ const BucketList = ({
             fontSize: '15px',
             fontWeight: 600,
           }}>Buckets</div>
-          <div className='listBucket'>
+          {buckets.length > 0 &&<div className='listBucket'>
             {buckets.map((item) => {
               return (
                 <div className='itemsBucket' key={item.id} onClick={() => {
@@ -85,7 +95,7 @@ const BucketList = ({
                 </div>
               )
             })}
-          </div>
+          </div>}
         </div>
         <div className='cartAddBucket' onClick={() => dispatch({
           type: "CHANGE_SCREEN",
