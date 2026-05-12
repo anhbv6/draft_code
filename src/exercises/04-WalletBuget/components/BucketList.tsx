@@ -61,7 +61,7 @@ const BucketList = ({
             fontSize: '17px',
             fontWeight: 600,
           }}>Available</div>
-          <Tooltip placement="bottom" title={`$${formatNumber(totalMoney)}`}>
+          <Tooltip placement="bottom" title={`$${formatNumber(availableMoney)}`}>
             <span style={{
               fontSize: '34px',
               fontWeight: 600,

@@ -7,32 +7,6 @@ const initialState: WalletState = {
   screenCurrent: "dashBoard",
 }
 
-// const initialState: WalletState = {
-//   totalMoney: 10000,
-//   availableMoney: 4000,
-//   buckets: [
-//     {
-//       id: "1",
-//       name: "Personal",
-//       balance: 2000,
-//       icon: "👤",
-//     },
-//     {
-//       id: "2",
-//       name: "Invest",
-//       balance: 3000,
-//       icon: "📈",
-//     },
-//     {
-//       id: "3",
-//       name: "Business",
-//       balance: 1000,
-//       icon: "💼",
-//     },
-//   ],
-//   screenCurrent: "dashBoard",
-// };
-
 export const walletReducer = (
   state = initialState,
   action: WalletActions,
@@ -58,11 +32,118 @@ export const walletReducer = (
       }
     }
 
-    case "ADD_BUCKET": 
+    case "ADD_BUCKET": {
+      const bucketAmount = action.payload.balance;
+
+      if (bucketAmount < 0) {
+        return state;
+      }
+
+      if (bucketAmount > state.availableMoney) {
+        return state;
+      }
+
       return {
         ...state,
-        buckets: [...state.buckets, action.payload]
+        availableMoney: state.availableMoney - bucketAmount,
+        buckets: [...state.buckets, action.payload],
       }
+    }
+      
+    case "UPDATE_BUCKET": 
+      return {
+      ...state,
+      buckets: state.buckets.map((bucket) =>
+        bucket.id === action.payload.id
+          ? {
+              ...bucket,
+              name: action.payload.name,
+              icon: action.payload.icon,
+              description: action.payload.description,
+            }
+          : bucket
+      ),
+      screenCurrent: "dashBoard",
+    };
+
+    case "DELETE_BUCKET": {
+      const deletedBucket = state.buckets.find(
+        (bucket) => bucket.id === action.payload.id
+      );
+
+      if (!deletedBucket) {
+        return state;
+      }
+
+      return {
+        ...state,
+        availableMoney: state.availableMoney + deletedBucket.balance,
+        buckets: state.buckets.filter(
+          (bucket) => bucket.id !== action.payload.id
+        ),
+        screenCurrent: "dashBoard",
+      }
+    }
+
+    case "TRANSFER_TO_BUCKET": {
+      const amount = action.payload.amount;
+
+      if (amount <= 0 || Number.isNaN(amount)) {
+        return state;
+      }
+
+      if (amount > state.availableMoney) {
+        return state;
+      }
+
+      return {
+        ...state,
+        availableMoney: state.availableMoney - amount,
+        buckets: state.buckets.map((bucket) =>
+          bucket.id === action.payload.id
+            ? {
+                ...bucket,
+                balance: bucket.balance + amount,
+              }
+            : bucket
+        ),
+        screenCurrent: "dashBoard",
+      };
+    }
+
+    case "TRANSFER_FROM_BUCKET": {
+      const amount = action.payload.amount;
+
+      if (amount <= 0 || Number.isNaN(amount)) {
+        return state;
+      }
+
+      const targetBucket = state.buckets.find(
+        (bucket) => bucket.id === action.payload.id
+      );
+
+      if (!targetBucket) {
+        return state;
+      }
+
+      if (amount > targetBucket.balance) {
+        return state;
+      }
+
+      return {
+        ...state,
+        availableMoney: state.availableMoney + amount,
+        buckets: state.buckets.map((bucket) =>
+          bucket.id === action.payload.id
+            ? {
+                ...bucket,
+                balance: bucket.balance - amount,
+              }
+            : bucket
+        ),
+        screenCurrent: "dashBoard",
+      };
+    }
     
     case "CHANGE_SCREEN":
       return {

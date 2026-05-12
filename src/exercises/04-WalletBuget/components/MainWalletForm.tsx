@@ -85,7 +85,7 @@ const MainWalletForm = (props: Props) => {
             color: '#a3a3a3',
             fontStyle: 'italic',
             fontSize: '16px',
-          }}>You have: ${formatNumber(totalMoney)}</span>
+          }}>{screenView === "formDeposit" ? `You have: $${formatNumber(totalMoney)}` : `Available Money: $${formatNumber(availableMoney)}`}</span>
           <button className='btnCustomBucket' onClick={() => setOpenConfirm(true)}>{screenView === "formDeposit" ? 'Confirm deposit' : 'Confirm withdraw'}</button>
         </div>
       </div>

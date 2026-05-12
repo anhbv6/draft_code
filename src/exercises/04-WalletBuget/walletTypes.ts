@@ -2,6 +2,7 @@ export type Bucket = {
     id: string,
     name: string,
     balance: number,
+    description: string,
     icon: string,
 }
 

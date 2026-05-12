@@ -5,7 +5,7 @@ import BucketList from './components/BucketList';
 import AddBucketForm from './components/AddBucketForm';
 import { useDispatch, useSelector } from 'react-redux';
 import type { RootState } from '../../store/store';
-import { SCREEN_NAME } from './walletTypes';
+import { SCREEN_NAME, type Bucket } from './walletTypes';
 import PopupMini from '../../components/PopupMini';
 import BucketAction from './components/BucketAction';
 import BucketActionForm from './components/BucketActionForm';
@@ -17,7 +17,7 @@ const WalletBuget = () => {
   const viewScreen = useSelector((state: RootState) => state.screenCurrent);
   const [openDrawer, setOpenDrawer] = useState(false);
   const [openPopup, setOpenPopup] = useState(false);
-  const [dataChoose, setDataChoose] = useState(null);
+  const [dataChoose, setDataChoose] = useState<any>();
 
   const onCloseDrawer = () => {
     setOpenDrawer(false);
@@ -43,7 +43,9 @@ const WalletBuget = () => {
   return (
     <div className='backGroundWallet'>
       <div className='containerWallet'>
-        <div className='layoutUIWallet'>
+        <div className='layoutUIWallet' style={{
+          overflow: viewScreen === "formAddBucket" || viewScreen === "formUpdateBucket" ? 'unset' : ''
+        }}>
           <div className='headerWallet'>
             <div style={{
               width: 'fit-content',
@@ -89,14 +91,14 @@ const WalletBuget = () => {
               "formUpdateBucket",
               "formDepositBucket",
               "formWithdrawBucket",
-            ].includes(viewScreen) && <BucketActionForm />}
+            ].includes(viewScreen) && <BucketActionForm dataChoose={dataChoose}/>}
           </div>
 
           {openDrawer && (
             <div className="overlay" onClick={onCloseDrawer} />
           )}
 
-          <div className={`drawer ${openDrawer ? "open" : ""}`} ref={checkDrawer}>
+          <div className={`drawer ${openDrawer ? "open" : ""}`} ref={checkDrawer} style={{display: viewScreen === "formAddBucket" || viewScreen === "formUpdateBucket" ? 'none' : ''}}>
             <div style={{
               padding: '20px',
               display: 'flex',
@@ -123,7 +125,7 @@ const WalletBuget = () => {
                   }
                 })
               }}>
-                <div>Deposit Money </div>
+                <div>Deposit Money</div>
                 <Icon name='arrowTop' size={24} color='green' onClick={onCloseDrawer} />
               </div>
               <div className='btnMoreCustom' onClick={() => {

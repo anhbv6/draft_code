@@ -1,6 +1,10 @@
 import React, { useState } from 'react'
 import toast from 'react-hot-toast';
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { formatNumber } from '../constants';
+import type { RootState } from '../../../store/store';
+import data from '@emoji-mart/data'
+import Picker from '@emoji-mart/react'
 
 type Props = {}
 
@@ -8,15 +12,57 @@ const AddBucketForm = (props: Props) => {
   const dispatch = useDispatch();
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
-  const [icon, setIcon] = useState("👤");
+  const [icon, setIcon] = useState("😀");
+  const [amount, setAmount] = useState("");
+
+  const [showPicker, setShowPicker] = useState(false);
+
+  const handleEmojiSelect = (emoji: any) => {
+    setIcon(emoji.native);
+    setShowPicker(false);
+  };
+
+  const availableMoney = useSelector((state: RootState) => state.availableMoney);
+
   const handleAddBucket = () => {
-    if (!name.trim()) return;
+    const bucketName = name.trim();
+    const bucketAmount = Number(amount);
+
+    if (!bucketName.trim()) {
+      toast.error("Please input your bucket.", {
+        duration: 4000,
+      })
+      return;
+    };
+
+    if (!amount.trim()) {
+      toast.error("Please input bucket amount.", {
+        duration: 4000,
+      });
+      return;
+    }
+
+    if (Number.isNaN(bucketAmount) || bucketAmount < 0) {
+      toast.error("Bucket amount is invalid.", {
+        duration: 4000,
+      });
+      return;
+    }
+
+    if (bucketAmount > availableMoney) {
+      toast.error("Bucket amount cannot be greater than available money.", {
+        duration: 4000,
+      });
+      return;
+    }
+
     dispatch({
       type: "ADD_BUCKET",
       payload: {
         id: crypto.randomUUID(),
-        name,
-        balance: 0,
+        name: bucketName,
+        description,
+        balance: bucketAmount,
         icon,
       }
     })
@@ -41,6 +87,7 @@ const AddBucketForm = (props: Props) => {
         display: 'flex',
         flexDirection: 'column',
         gap: '16px',
+        height: '100%',
       }}>
         <input 
           className='inputCustomBucket' 
@@ -51,6 +98,15 @@ const AddBucketForm = (props: Props) => {
           onChange={(e) => setName(e.target.value)}
           placeholder='Enter a bucket name'
         />
+        <input 
+          className='inputCustomBucket' 
+          style={{
+            height: '50px',
+          }}
+          value={amount}
+          onChange={(e) => setAmount(e.target.value)}
+          placeholder='Enter a bucket amount'
+        />
         <textarea 
           className='inputCustomBucket' 
           placeholder='Enter a description' 
@@ -58,19 +114,67 @@ const AddBucketForm = (props: Props) => {
           value={description} 
           onChange={(e) => setDescription(e.target.value)}
         />
-        <select 
-          className='inputCustomBucket'
-          value={icon}
-          onChange={(e) => setIcon(e.target.value)}
-        >
-          <option value="👤">👤 Personal</option>
-          <option value="📈">📈 Invest</option>
-          <option value="💼">💼 Business</option>
-        </select>
-        <button 
-          className='btnCustomBucket'
-          onClick={handleAddBucket}  
-        >Save Bucket</button>
+
+        <div style={{ position: 'relative' }}>
+          {/* Box chọn emoji */}
+          <div
+            onClick={() => setShowPicker((prev) => !prev)}
+            style={{
+              height: '60px',
+              width: '60px',
+              border: '1px solid #172027',
+              borderRadius: '12px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontSize: '30px',
+              cursor: 'pointer',
+              background: '#172027',
+              userSelect: 'none',
+              placeSelf: 'end',
+            }}
+          >
+            {icon}
+          </div>
+
+          {/* Picker */}
+          {showPicker && (
+            <div
+              style={{
+                position: 'absolute',
+                bottom: '10px',
+                left: '375px',
+                zIndex: 1000,
+              }}
+            >
+              <Picker
+                data={data}
+                onEmojiSelect={handleEmojiSelect}
+              />
+            </div>
+          )}
+        </div>
+        <div style={{
+          marginTop: 'auto',
+          width: '100%',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '8px',
+        }}>
+          <span style={{
+            textAlign: 'end',
+            color: '#a3a3a3',
+            fontStyle: 'italic',
+            fontSize: '16px',
+          }}>Available Money: ${formatNumber(availableMoney)}</span>
+          <button 
+            className='btnCustomBucket'
+            style={{
+              width: '100%',
+            }}
+            onClick={handleAddBucket}  
+          >Save Bucket</button>
+        </div>
       </div>
     </div>
   )
