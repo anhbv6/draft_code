@@ -1,4 +1,3 @@
-import React from 'react'
 import Icon from '../../../components/Icon'
 import { useDispatch, useSelector } from 'react-redux'
 import type { RootState } from '../../../store/store'
@@ -18,9 +17,9 @@ const BucketList = ({
 }: Props) => {
   const dispatch = useDispatch();
 
-  const totalMoney = useSelector((state: RootState) => state.totalMoney);
-  const availableMoney = useSelector((state: RootState) => state.availableMoney);
-  const buckets = useSelector((state: RootState) => state.buckets);
+  const totalMoney = useSelector((state: RootState) => state.wallet.totalMoney);
+  const availableMoney = useSelector((state: RootState) => state.wallet.availableMoney);
+  const buckets = useSelector((state: RootState) => state.wallet.buckets);
 
   return (
     <div style={{

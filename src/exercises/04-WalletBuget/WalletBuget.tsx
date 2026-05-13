@@ -1,11 +1,11 @@
-import React, { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import "./WalletBuget.css";
 import Icon from '../../components/Icon';
 import BucketList from './components/BucketList';
 import AddBucketForm from './components/AddBucketForm';
 import { useDispatch, useSelector } from 'react-redux';
 import type { RootState } from '../../store/store';
-import { SCREEN_NAME, type Bucket } from './walletTypes';
+import { SCREEN_NAME } from './walletTypes';
 import PopupMini from '../../components/PopupMini';
 import BucketAction from './components/BucketAction';
 import BucketActionForm from './components/BucketActionForm';
@@ -14,7 +14,7 @@ import MainWalletForm from './components/MainWalletForm';
 const WalletBuget = () => {
   const dispatch = useDispatch();
   const checkDrawer = useRef<HTMLDivElement>(null);
-  const viewScreen = useSelector((state: RootState) => state.screenCurrent);
+  const viewScreen = useSelector((state: RootState) => state.wallet.screenCurrent);
   const [openDrawer, setOpenDrawer] = useState(false);
   const [openPopup, setOpenPopup] = useState(false);
   const [dataChoose, setDataChoose] = useState<any>();
@@ -91,7 +91,8 @@ const WalletBuget = () => {
               "formUpdateBucket",
               "formDepositBucket",
               "formWithdrawBucket",
-            ].includes(viewScreen) && <BucketActionForm dataChoose={dataChoose}/>}
+            ].includes(viewScreen) &&
+              dataChoose && <BucketActionForm dataChoose={dataChoose}/>}
           </div>
 
           {openDrawer && (

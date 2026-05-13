@@ -1,8 +1,7 @@
-import React, { useState } from 'react'
-import Icon from '../../../components/Icon'
+import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import type { RootState } from '../../../store/store'
-import { SCREEN_NAME, type Bucket } from '../walletTypes'
+import { type Bucket } from '../walletTypes'
 import data from '@emoji-mart/data'
 import Picker from '@emoji-mart/react'
 import { formatNumber } from '../constants'
@@ -16,8 +15,8 @@ const BucketActionForm = ({
     dataChoose,
 }: Props) => {
     const dispatch = useDispatch();
-    const viewScreen = useSelector((state: RootState) => state.screenCurrent);
-    const availableMoney = useSelector((state: RootState) => state.availableMoney);
+    const viewScreen = useSelector((state: RootState) => state.wallet.screenCurrent);
+    const availableMoney = useSelector((state: RootState) => state.wallet.availableMoney);
     const [name, setName] = useState(dataChoose.name);
     const [description, setDescription] = useState(dataChoose.description);
     const [icon, setIcon] = useState(dataChoose.icon);

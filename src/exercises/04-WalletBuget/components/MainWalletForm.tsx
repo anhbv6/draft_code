@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import ConfirmModal from '../../../components/ConfirmModal';
 import type { RootState } from '../../../store/store';
@@ -9,9 +9,9 @@ const MainWalletForm = () => {
   const dispatch = useDispatch();
   const [amount, setAmount] = useState("");
   const [openConfirm, setOpenConfirm] = useState<boolean>(false);
-  const totalMoney = useSelector((state: RootState) => state.totalMoney);
-  const availableMoney = useSelector((state: RootState) => state.availableMoney);
-  const screenView = useSelector((state: RootState) => state.screenCurrent);
+  const totalMoney = useSelector((state: RootState) => state.wallet.totalMoney);
+  const availableMoney = useSelector((state: RootState) => state.wallet.availableMoney);
+  const screenView = useSelector((state: RootState) => state.wallet.screenCurrent);
 
   const handleSubmit = () => {
     const amountResult = Number(amount);

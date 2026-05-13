@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import toast from 'react-hot-toast';
 import { useDispatch, useSelector } from 'react-redux'
 import { formatNumber } from '../constants';
@@ -20,7 +20,7 @@ const AddBucketForm = () => {
     setShowPicker(false);
   };
 
-  const availableMoney = useSelector((state: RootState) => state.availableMoney);
+  const availableMoney = useSelector((state: RootState) => state.wallet.availableMoney);
 
   const handleAddBucket = () => {
     const bucketName = name.trim();

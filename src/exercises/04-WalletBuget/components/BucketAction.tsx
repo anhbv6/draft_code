@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import Icon from '../../../components/Icon';
 import { useDispatch } from 'react-redux';
 import PopupMini from '../../../components/PopupMini';
