@@ -19,7 +19,6 @@ const BucketActionForm = ({
     const viewScreen = useSelector((state: RootState) => state.screenCurrent);
     const availableMoney = useSelector((state: RootState) => state.availableMoney);
     const [name, setName] = useState(dataChoose.name);
-    const [amount, setAmount] = useState(String(dataChoose.balance));
     const [description, setDescription] = useState(dataChoose.description);
     const [icon, setIcon] = useState(dataChoose.icon);
     const [transferAmount, setTransferAmount] = useState("");
@@ -54,28 +53,23 @@ const BucketActionForm = ({
     const handleTransferBucket = () => {
         const amountNumber = Number(transferAmount);
 
-        if (!transferAmount.trim()) {
-            toast.error("Please input amount.");
-            return;
-        }
-
-        if (Number.isNaN(amountNumber) || amountNumber <= 0) {
-            toast.error("Amount is invalid.");
+        if (!transferAmount.trim() || Number.isNaN(amountNumber) || amountNumber <= 0) {
+            toast.error("Please checking amount again.");
             return;
         }
 
         if (viewScreen === "formDepositBucket") {
             if (amountNumber > availableMoney) {
-            toast.error("Amount cannot be greater than available money.");
-            return;
+                toast.error("Amount cannot be greater than available money.");
+                return;
             }
 
             dispatch({
-            type: "TRANSFER_TO_BUCKET",
-            payload: {
-                id: dataChoose.id,
-                amount: amountNumber,
-            },
+                type: "TRANSFER_TO_BUCKET",
+                payload: {
+                    id: dataChoose.id,
+                    amount: amountNumber,
+                },
             });
 
             toast.success("Deposit successfully.");
@@ -85,20 +79,21 @@ const BucketActionForm = ({
 
         if (viewScreen === "formWithdrawBucket") {
             if (amountNumber > dataChoose.balance) {
-            toast.error("Amount cannot be greater than bucket balance.");
-            return;
+                toast.error("Amount cannot be greater than bucket balance.");
+                return;
             }
 
             dispatch({
-            type: "TRANSFER_FROM_BUCKET",
-            payload: {
-                id: dataChoose.id,
-                amount: amountNumber,
-            },
+                type: "TRANSFER_FROM_BUCKET",
+                payload: {
+                    id: dataChoose.id,
+                    amount: amountNumber,
+                },
             });
 
             toast.success("Withdraw successfully.");
             setTransferAmount("");
+            return;
         }
     };
 
@@ -133,23 +128,23 @@ const BucketActionForm = ({
                 <div style={{ position: 'relative' }}>
                     {/* Box chọn emoji */}
                     <div
-                    onClick={() => setShowPicker((prev) => !prev)}
-                    style={{
-                        height: '60px',
-                        width: '60px',
-                        border: '1px solid #172027',
-                        borderRadius: '12px',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        fontSize: '30px',
-                        cursor: 'pointer',
-                        background: '#172027',
-                        userSelect: 'none',
-                        placeSelf: 'end',
-                    }}
+                        onClick={() => setShowPicker((prev) => !prev)}
+                        style={{
+                            height: '60px',
+                            width: '60px',
+                            border: '1px solid #172027',
+                            borderRadius: '12px',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            fontSize: '30px',
+                            cursor: 'pointer',
+                            background: '#172027',
+                            userSelect: 'none',
+                            placeSelf: 'end',
+                        }}
                     >
-                    {icon}
+                        {icon}
                     </div>
         
                     {/* Picker */}

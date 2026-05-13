@@ -17,6 +17,7 @@ export const walletReducer = (
         ...state,
         totalMoney: state.totalMoney + action.payload.amount,
         availableMoney: state.availableMoney + action.payload.amount,
+        screenCurrent: "dashBoard",
       }
 
     case "WITHDRAW_MAIN_WALLET": {
@@ -29,24 +30,19 @@ export const walletReducer = (
         ...state,
         totalMoney: state.totalMoney - amount,
         availableMoney: state.availableMoney - amount,
+        screenCurrent: "dashBoard",
       }
     }
 
     case "ADD_BUCKET": {
       const bucketAmount = action.payload.balance;
-
-      if (bucketAmount < 0) {
-        return state;
-      }
-
-      if (bucketAmount > state.availableMoney) {
-        return state;
-      }
+      if (bucketAmount < 0 || bucketAmount > state.availableMoney) return state;
 
       return {
         ...state,
         availableMoney: state.availableMoney - bucketAmount,
         buckets: [...state.buckets, action.payload],
+        screenCurrent: "dashBoard",
       }
     }
       

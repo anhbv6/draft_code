@@ -5,9 +5,7 @@ import type { RootState } from '../../../store/store';
 import { formatNumber } from '../constants';
 import toast from 'react-hot-toast';
 
-type Props = {}
-
-const MainWalletForm = (props: Props) => {
+const MainWalletForm = () => {
   const dispatch = useDispatch();
   const [amount, setAmount] = useState("");
   const [openConfirm, setOpenConfirm] = useState<boolean>(false);
@@ -26,10 +24,7 @@ const MainWalletForm = (props: Props) => {
       screenView === "formWithdraw" &&
       amountResult > availableMoney
     ) {
-      toast.error("Insufficient balance.", {
-        duration: 4000,
-
-      })
+      toast.error("Insufficient balance.");
       return;
     }
     
@@ -42,14 +37,8 @@ const MainWalletForm = (props: Props) => {
         amount: amountResult,
       },
     });
-    toast.success("Success")
     setAmount("");
-    dispatch({
-      type: "CHANGE_SCREEN",
-      payload: {
-        screen: "dashBoard",
-      }
-    })
+    toast.success("Success")
   }
 
   return (

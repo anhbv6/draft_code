@@ -6,9 +6,7 @@ import type { RootState } from '../../../store/store';
 import data from '@emoji-mart/data'
 import Picker from '@emoji-mart/react'
 
-type Props = {}
-
-const AddBucketForm = (props: Props) => {
+const AddBucketForm = () => {
   const dispatch = useDispatch();
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
@@ -28,31 +26,18 @@ const AddBucketForm = (props: Props) => {
     const bucketName = name.trim();
     const bucketAmount = Number(amount);
 
-    if (!bucketName.trim()) {
-      toast.error("Please input your bucket.", {
-        duration: 4000,
-      })
+    if (!bucketName || !amount.trim()) {
+      toast.error("Please input your bucket.")
       return;
     };
 
-    if (!amount.trim()) {
-      toast.error("Please input bucket amount.", {
-        duration: 4000,
-      });
-      return;
-    }
-
     if (Number.isNaN(bucketAmount) || bucketAmount < 0) {
-      toast.error("Bucket amount is invalid.", {
-        duration: 4000,
-      });
+      toast.error("Bucket amount is invalid.");
       return;
     }
 
     if (bucketAmount > availableMoney) {
-      toast.error("Bucket amount cannot be greater than available money.", {
-        duration: 4000,
-      });
+      toast.error("Bucket amount cannot be greater than available money.");
       return;
     }
 
@@ -68,14 +53,9 @@ const AddBucketForm = (props: Props) => {
     })
     setName("");
     setDescription("");
+    setAmount("")
     setIcon("👤");
-    toast.success("Success")
-    dispatch({
-      type: "CHANGE_SCREEN",
-      payload: {
-        screen: "dashBoard",
-      }
-    })
+    toast.success(`Create Bucket ${bucketName} Success.`)
   }
 
   return (
