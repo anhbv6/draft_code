@@ -112,7 +112,7 @@ const TodoList = () => {
   }, [listTodo]);
 
   return (
-    <div className='container'>
+    <div className='containerTodoList'>
       <div className='content'>
         <h1 className='title'>TO DO LIST</h1>
         <div style={{

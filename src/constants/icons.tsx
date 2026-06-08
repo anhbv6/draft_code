@@ -13,6 +13,7 @@ import CloseV2Icon from "../assets/icons/CloseV2Icon";
 import DayIcon from "../assets/icons/DayIcon";
 import DeleteIcon from "../assets/icons/DeleteIcon";
 import HistoryIcon from "../assets/icons/HistoryIcon";
+import ListCheckIcon from "../assets/icons/ListCheckIcon";
 import MenuIcon from "../assets/icons/MenuIcon";
 import NightIcon from "../assets/icons/NightIcon";
 import NotesIcon from "../assets/icons/NotesIcon";
@@ -46,4 +47,5 @@ export const ICONS = {
   arrowBottom: ArrowBottomIcon,
   addList: AddListIcon,
   arrowCrossover: ArrowCrossoverIcon,
+  listCheck: ListCheckIcon,
 };
