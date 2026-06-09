@@ -71,3 +71,7 @@
   flex: 1;
   background: #E5E5E5;
 }
+
+.disableScrollBar::-webkit-scrollbar {
+  width: 0px;
+}

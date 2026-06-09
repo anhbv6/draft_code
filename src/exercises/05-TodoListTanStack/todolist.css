@@ -1,0 +1,18 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --color-primary: #6366f1;
+  --color-primary-light: #818cf8;
+  --color-primary-dark: #4f46e5;
+  --color-accent: #f59e0b;
+  --color-surface: #1e1b2e;
+  --color-surface-light: #2a2640;
+  --color-surface-lighter: #363254;
+  --color-bg: #13111c;
+  --color-text: #e2e0ec;
+  --color-text-muted: #9490ab;
+  --color-success: #34d399;
+  --color-danger: #f87171;
+  --color-danger-dark: #ef4444;
+}
