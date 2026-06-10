@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import type { Todo } from '../../../api/TodoListTanStack';
-import { Check, Pencil, Trash, X } from 'lucide-react';
+import { Check, Pencil, SquareDashed, Trash, X } from 'lucide-react';
 
 type TodoItemProps = {
     todo: Todo;
@@ -29,6 +29,7 @@ const TodoItem = ({
         if (trimmed && trimmed !== todo.title) onEdit(todo, trimmed);
         setEditing(false);
     };
+
     return (
         <li
             className={`group flex items-center gap-3 rounded-xl px-4 py-3 transition-all duration-300 hover:bg-surface-lighter/60 ${
@@ -44,7 +45,7 @@ const TodoItem = ({
                     : "border-text-muted/40 hover:border-primary-light"
                 }`}
             >
-                {todo.completed && <Check />}
+                {todo.completed ? <Check color='green' /> : <SquareDashed />}
             </button>
 
             {/* Title / Edit */}
@@ -77,7 +78,7 @@ const TodoItem = ({
                         onClick={() => { setEditText(todo.title); setEditing(true); }}
                         className="rounded-lg p-1.5 text-text-muted transition-colors hover:bg-primary/20 hover:text-primary-light cursor-pointer"
                     >
-                        <Pencil />
+                        <Pencil size={18}/>
                     </button>
                 )}
                 {editing ? (
@@ -85,14 +86,14 @@ const TodoItem = ({
                         onClick={() => { setEditing(false); setEditText(todo.title); }}
                         className="rounded-lg p-1.5 text-text-muted transition-colors hover:bg-danger/20 hover:text-danger cursor-pointer"
                     >
-                        <X />
+                        <X size={18}/>
                     </button>
                     ) : (
                     <button
                         onClick={() => onDelete(todo.id)}
                         className="rounded-lg p-1.5 text-text-muted transition-colors hover:bg-danger/20 hover:text-danger cursor-pointer"
                     >
-                        <Trash />
+                        <Trash size={18}/>
                     </button>
                 )}
             </div>

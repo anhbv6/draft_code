@@ -95,7 +95,7 @@ export default function TodoListTanStack() {
             Todo List
           </h1>
           <p className="mt-1.5 text-sm text-text-muted flex items-center justify-center gap-1">
-            Quản lý công việc hiệu quả mỗi ngày <Sparkles />
+            Quản lý công việc hiệu quả mỗi ngày <Sparkles size={18}/>
           </p>
         </div>
 
@@ -128,7 +128,7 @@ export default function TodoListTanStack() {
             // disabled={isAdding || !newTitle.trim()}
             className="flex items-center gap-1.5 rounded-xl bg-primary px-5 py-3 text-sm font-semibold text-white transition-all duration-300 hover:bg-primary-dark disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer hover:shadow-[0_0_20px_rgba(99,102,241,0.3)]"
           >
-            <Plus />
+            <Plus size={16}/>
             <span>Thêm</span>
           </button>
         </div>
