@@ -12,7 +12,7 @@ const QUERY_KEY = ["todos"];
 export const useTodoListTanStack = () => {
     const queryClient = useQueryClient();
 
-    const {data, isLoading, isError, error} = useQuery({
+    const { data, isLoading, isError, error } = useQuery({
         queryKey: QUERY_KEY,
         queryFn: getListTodo,
     });
@@ -45,7 +45,7 @@ export const useTodoListTanStack = () => {
     })
 
     return {
-        todos: data as Todo[],
+        todos: (data ?? []) as Todo[],
         isLoading,
         isError,
         error,

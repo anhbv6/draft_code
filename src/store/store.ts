@@ -1,5 +1,5 @@
 import { combineReducers, createStore } from "redux";
-import { walletReducer } from "../exercises/04-WalletBuget/walletReducer";
+import { walletReducer } from "../exercises/03-WalletBuget/walletReducer";
 
 const rootReducer = combineReducers({
   wallet: walletReducer,

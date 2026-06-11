@@ -1,9 +1,9 @@
 import TodoList from "../exercises/01-TodoList/TodoList";
-import WalletBuget from "../exercises/04-WalletBuget/WalletBuget";
 import CaculatorNumber from "../exercises/02-CaculatorNumber/CaculatorNumber";
-import ShoppingCart from "../exercises/03-ShoppingCart/ShoppingCart";
 import type { ICONS } from "./icons";
 import TodoListTanStack from "../exercises/05-TodoListTanStack/TodoListTanStack";
+import WalletBuget from "../exercises/03-WalletBuget/WalletBuget";
+import ShoppingCartTanStack from "../exercises/04-ShoppingCartTanStack/ShoppingCartTanStack";
 
 export type ExerciresItem = {
     id: number,
@@ -27,15 +27,15 @@ export const exerciresList: ExerciresItem[] = [
     },
     {
         id: 3,
-        icon: 'cart',
-        name: 'cartShopping',
-        component: <ShoppingCart />,
-    },
-    {
-        id: 4,
         icon: 'wallet',
         name: 'walletBuget',
         component: <WalletBuget />,
+    },
+    {
+        id: 4,
+        icon: 'cart',
+        name: 'cartShopping',
+        component: <ShoppingCartTanStack />,
     },
     {
         id: 5,
